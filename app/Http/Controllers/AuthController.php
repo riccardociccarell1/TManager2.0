@@ -6,8 +6,9 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
-
 use Illuminate\Http\Request;
+
+
 
 
 /**
@@ -57,5 +58,23 @@ class AuthController extends Controller
         ], 200);
 
     }
+
+    /**
+     * Logout the authenticated user and revoke their authentication token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request) : JsonResponse
+    {
+        $user = $request->user();
+
+        // Revoke the token that was used to authenticate the current request.
+        $this->authService->logoutUser($user);
+
+        return response()->json([
+            'message' => 'User logged out successfully.',
+        ], 200);
+    }    
+
 
 }

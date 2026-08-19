@@ -61,4 +61,17 @@ class AuthService
             'token' => $token,
         ];
     }
+
+    
+    /**
+     * Logout a user by revoking their authentication tokens.
+     *
+     * @param User $user
+     * @return void
+     */
+    public function logoutUser(User $user): void
+    {
+        // Revoke all tokens for the user.
+        $user->tokens()->delete();
+    }
 }
