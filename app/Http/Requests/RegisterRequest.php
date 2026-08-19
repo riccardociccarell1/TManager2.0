@@ -13,7 +13,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
             'role' => ['prohibited'], // Prevent users from setting their own role during registration
@@ -44,6 +45,11 @@ class RegisterRequest extends FormRequest
             'name.required' => 'The name is required.',
             'name.string' => 'The name must be a valid string.',
             'name.max' => 'The name cannot contain more than 255 characters.',
+
+            // Surname errors.
+            'surname.required' => 'The surname is required.',
+            'surname.string' => 'The surname must be a valid string.',
+            'surname.max' => 'The surname cannot contain more than 255 characters.',
 
             // Email errors.
             'email.required' => 'The email is required.',
