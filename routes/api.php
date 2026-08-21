@@ -18,7 +18,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/tasks', [TaskController::class, 'store']);
+    Route::post('/tasksCreate', [TaskController::class, 'store']);
+    Route::get('/tasksGet', [TaskController::class, 'viewTasks']);
+    Route::put('/tasksUpdate/{taskId}', [TaskController::class, 'update']);
 });
 
 
