@@ -51,10 +51,15 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all tasks that belong to the user.
+     * Check if the user is a owner.
      *
-     * @return HasMany
+     * @return bool
      */
+    public function isOwner(): bool
+    {
+        return $this->role === 'owner';
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);

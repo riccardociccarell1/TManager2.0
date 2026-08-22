@@ -22,12 +22,16 @@ class TaskService
 
     /**
      * List all tasks for a user.
+     * if the user is an owner, return all tasks.
      *
      * @param User $user
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function listTasks(User $user)
     {
+        if ($user->isOwner()) {
+            return Task::all();
+        }
         return $user->tasks()->get();
     }
 
@@ -56,4 +60,41 @@ class TaskService
 
         }
 
-}
+
+        /**
+         * Delete a task for a user.
+         *
+         * @param User $user
+         * @param int $taskId
+         * @return bool
+         */
+        public function deleteTask(User $user, int $taskId): bool
+        {
+            // Find the task among the tasks that belong to the user.   
+            $task = $user->tasks()->find($taskId);
+
+            if (!$task) {
+                throw new \Exception('Task not found.');
+            }
+
+            return $task->delete();
+        }
+
+        /**
+         * Get a specific task for a user.
+         *
+         * @param User $user
+         * @param int $taskId
+         * @return Task|null
+         */
+        public function getSingleTask(User $user, int $taskId): Task
+        {
+            $task = $user->tasks()->find($taskId);
+
+            if (!$task) {
+                throw new \Exception('Task not found.');
+            }
+
+            return $task;
+        }
+}        

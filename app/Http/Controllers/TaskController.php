@@ -78,4 +78,39 @@ private $taskService;
             'task' => $task,
         ]);
     }
-}
+
+    /**
+     * Remove the specified task from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $taskId
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, int $taskId) : JsonResponse
+    {
+        $user = $request->user();
+        $this->taskService->deleteTask($user, $taskId);
+
+        return response()->json([
+            'message' => 'Task deleted successfully.',
+        ]);
+    }
+
+    /**
+     * Display the specified task.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $taskId
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, int $taskId) : JsonResponse
+    {
+        $user = $request->user();
+        $task = $this->taskService->getSingleTask($user, $taskId);
+
+        return response()->json([
+            'task' => $task,
+        ]);
+    }
+
+}    
